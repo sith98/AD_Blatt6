@@ -1,48 +1,29 @@
-class Node<T extends Comparable<T>> {
-    T value;
-    Node<T> next;
-
-    Node(T value) {
-        this.value = value;
-    }
-
-    Node(T value, Node<T> next) {
-        this.value = value;
-        this.next = next;
-    }
-
-    @Override
-    public String toString() {
-        return "Node(" + value + ", " + next + ")";
-    }
-}
-
-class List<T extends Comparable<T>> {
+class SortableList<T extends Comparable<T>> {
     private Node<T> first = null;
-
-
+    
+    
     @SafeVarargs
-    List(T... values) {
+    SortableList(T... values) {
         for (int i = values.length - 1; i >= 0; i--) {
             prepend(values[i]);
         }
     }
-
+    
     @Override
     public String toString() {
         var builder = new StringBuilder();
-
-
+        
+        
         var current = first;
         while (current != null) {
             builder.append(current.value.toString())
                 .append(' ');
             current = current.next;
         }
-
+        
         return builder.toString();
     }
-
+    
     void append(T value) {
         if (first == null) {
             first = new Node<>(value);
@@ -54,23 +35,23 @@ class List<T extends Comparable<T>> {
             current.next = new Node<>(value);
         }
     }
-
+    
     void quickSort() {
         first = quickSort(first);
     }
-
+    
     private Node<T> quickSort(Node<T> first) {
-        // List is zero or one elements long
+        // Aufgabe1.SortableList is zero or one elements long
         if (first == null || first.next == null) {
             return first;
         }
         Node<T> pivot = first;
         first = first.next;
         pivot.next = null;
-
+        
         Node<T> smaller = null;
-
-
+        
+        
         Node<T> current = first;
         Node<T> previous = null;
         while (current != null) {
@@ -82,7 +63,7 @@ class List<T extends Comparable<T>> {
                     previous.next = current.next;
                 }
                 var next = current.next;
-
+                
                 current.next = smaller;
                 smaller = current;
                 current = next;
@@ -91,10 +72,10 @@ class List<T extends Comparable<T>> {
                 current = current.next;
             }
         }
-
+        
         smaller = quickSort(smaller);
         first = quickSort(first);
-
+        
         pivot.next = first;
         if (smaller != null) {
             var lastSmaller = smaller;
@@ -108,15 +89,17 @@ class List<T extends Comparable<T>> {
         }
         return smaller;
     }
-
+    
     private void prepend(T value) {
         first = new Node<>(value, first);
     }
 }
 
+
 public class Aufgabe1 {
+    
     public static void main(String[] args) {
-        var list = new List<>(4, 1, 2, 3, 5, 6);
+        var list = new SortableList<>(4, 1, 2, 3, 5, 6);
 
         list.quickSort();
         System.out.println(list);
