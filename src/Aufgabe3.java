@@ -109,28 +109,11 @@ class Tree<T extends Comparable<T>> {
         boolean continueExecution = true;
         while (continueExecution) {
             continueExecution = false;
-            if (current.right == null && current.left == null) {
-                if (predecessor.left == current) {
-                    predecessor.left = null;
-                } else {
-                    predecessor.right = null;
-                }
-            } else if (current.left == null) {
-                if (predecessor.left == current) {
-                    predecessor.left = current.right;
-                } else {
-                    predecessor.right = current.right;
-                }
-            } else if (current.right == null) {
-                if (predecessor.left == current) {
-                    predecessor.left = current.left;
-                } else {
-                    predecessor.right = current.left;
-                }
-            } else {
+
+            if (current.right != null && current.left != null) {
                 TreeNode<T> current2 = current.right;
                 TreeNode<T> predecessor2 = current;
-            
+
                 while (current2.left != null) {
                     predecessor2 = current2;
                     current2 = current2.left;
@@ -139,6 +122,23 @@ class Tree<T extends Comparable<T>> {
                 current = current2;
                 predecessor = predecessor2;
                 continueExecution = true;
+            } else {
+                TreeNode<T> node = null;
+
+                if (current.right != null) {
+                    node = current.right;
+                } else if (current.left != null) {
+                    node = current.left;
+                }
+
+                if (predecessor == null) {
+                    root = node;
+                } else if (current == predecessor.left) {
+                    predecessor.left = node;
+                } else if (current == predecessor.right) {
+                    predecessor.right = node;
+                }
+
             }
         }
         
@@ -207,15 +207,14 @@ public class Aufgabe3 {
         tree.insert(7);
         tree.insert(9);
         tree.insert(1);
+
+
+        tree.deleteIter(3);
+        tree.deleteRec(1);
         
         tree.print();
 
         tree.deleteIter(6);
-        
-        tree.print();
-        
-        tree.deleteRec(7);
-        
         tree.print();
         
     }

@@ -216,7 +216,7 @@ class Matrix {
 
 public class Aufgabe4 {
     public static void main(String[] args) {
-        var dim = 1 << 10;
+        var dim = 1 << 11;
         
         var a = Matrix.random(dim, dim);
         var b = Matrix.random(dim, dim);
